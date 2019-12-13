@@ -1,0 +1,3 @@
+[flake8]
+per-file-ignores =
+    other/*: W9, E901, E501
