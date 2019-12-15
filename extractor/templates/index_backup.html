@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>30秒音乐网——提取你想要的音乐高潮</title>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><h1>提取你想要的音乐高潮</h1></div>
+            <div class="col-md-4"></div>
+          </div>
+        <form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+            <p><input type="submit" value="上传"/></p>
+        </form>
+        <div class="bs-docs-section bs-customizer-import">
+            <div id="import-drop-target" class="bs-dropzone">
+              <div class="import-header">
+                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+              </div>
+              <p class="lead">有现成的配置？上传并导入你的 <code>config.json</code> 文件。</p>
+              <p>将文件拖拽到这里或<label id="import-manual-trigger" class="btn-link">手动上传<input type="file" id="import-file-select" class="hidden"></label>。</p>
+              <hr>
+              <p><strong>没有现成的配置文件？</strong>没关系，从下面开始自定义各字段吧。</p>
+            </div>
+        </div>
+    </body>
+    <style>
+        .glyphicon {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .bs-dropzone {
+            position: relative;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #777;
+            text-align: center;
+            border: 2px dashed #eee;
+            border-radius: 4px;
+        }
+        .bs-dropzone .import-header {
+            margin-bottom: 5px;
+        }
+        .bs-dropzone .glyphicon-download-alt {
+            font-size: 40px;
+        }
+        .bs-dropzone hr {
+            width: 100px;
+        }
+        .bs-dropzone .lead {
+            margin-bottom: 10px;
+            font-weight: normal;
+            color: #333;
+        }
+        /*.bs-dropzone*/ #import-manual-trigger {
+            cursor: pointer;
+        }
+        .bs-dropzone p:last-child {
+            margin-bottom: 0;
+        }
+
+    </style>
+</html>

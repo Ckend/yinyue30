@@ -42,16 +42,18 @@ def index(request):
             input_path = '/'.join(filePath)
             # 生成音乐高潮部分的文件位置
             output_path = '/'.join(filePath[:-1])+'/'+NameExt[0]+'_high.wav'
-
             # 提取音乐高潮部分
             chorus_start_sec = find_and_output_chorus(input_path, output_path, 30)
-
             # 返回文件
             with open(output_path, 'rb') as f:
                 response = HttpResponse(f)
                 response['content_type'] = "application/octet-stream"
                 response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path)
+                print(os.path.basename(output_path))
                 return response
+        else:
+            form = DocumentForm()
+            return render(request, 'index.html', {'form': form, 'wrong': "请上传正确的文件：wav/mp3格式, 大小不超过10M"})
     else:
         # 生成一个空表
         form = DocumentForm()
@@ -59,3 +61,21 @@ def index(request):
     return render(request, 'index.html', {'form': form})
 
 
+def about(request):
+    """
+    关于
+
+    @param request: 请求对象
+    """
+
+    return render(request, 'about.html')
+
+
+def contact(request):
+    """
+    联系
+
+    @param request: 请求对象
+    """
+
+    return render(request, 'contact.html')

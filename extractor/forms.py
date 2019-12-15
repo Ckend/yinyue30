@@ -10,5 +10,6 @@ class DocumentForm(forms.Form):
     # label和help_text属性都可以在前端中被调取
     docfile = forms.FileField(
         label='选择文件',
-        help_text='最大 10 m'
+        help_text='最大 10 m',
+        widget=forms.ClearableFileInput(attrs={'class': 'form-control tm-search-input', 'id': 'attachment'})
     )

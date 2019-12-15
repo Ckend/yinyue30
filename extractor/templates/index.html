@@ -1,19 +1,303 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>上传示例</title>
-    </head>
-    <body>
-        <form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <p>{{ form.non_field_errors }}</p>
-            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-            <p>
-                {{ form.docfile.errors }}
-                {{ form.docfile }}
-            </p>
-            <p><input type="submit" value="上传"/></p>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>30秒音乐网 —— 自动提取音乐高潮  </title>
+  <!-- load CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fontawesome-all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tooplate-style.css' %}">
+  <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script> <!-- https://jquery.com/ -->
+  <script type="text/javascript">
+    var renderPage = true;
+
+    if (navigator.userAgent.indexOf('MSIE') !== -1
+      || navigator.appVersion.indexOf('Trident/') > 0) {
+      /* Microsoft Internet Explorer detected in. */
+      alert("Please view this in a modern browser such as Chrome or Microsoft Edge.");
+      renderPage = false;
+    }
+
+    $(document).ready(function(){
+      $('#file-upload').click(function(){
+        $('#hidden').html('<div class="alert alert-info" role="alert">处理中, 完成后会自动下载，等待的时候要不...搜索关注一下 Python实用宝典 公众号</div>');
+        $('#hidden').css('padding', '15px');
+        $('#t_form').css('display', 'none');
+      })
+    });
+
+  </script>
+   <script type="text/javascript">
+    $(document).ready(function(){
+      $('#file-upload').click(function(){
+        $('#hidden').html('<div class="alert alert-info" role="alert">处理中, 完成后会自动下载，等待的时候要不...搜索关注一下Python实用宝典 公众号</div>');
+        $('#hidden').css('padding', '15px');
+        $('#t_form').css('display', 'none');
+      })
+    });
+  </script> 
+</head>
+
+<body>
+  <!-- Loader -->
+  <div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+  </div>
+
+  <div class="tm-main">
+
+    <div class="tm-welcome-section">
+      <div class="container tm-navbar-container">
+        <div class="row">
+          <div class="col-xl-12">
+            <nav class="navbar navbar-expand-sm">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a href="/" class="nav-link tm-nav-link tm-text-white active">首页</a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a href="about" class="nav-link tm-nav-link tm-text-white">关于</a>
+                </li>
+                <li class="nav-item">
+                  <a href="contact" class="nav-link tm-nav-link tm-text-white">联系</a>
+                </li> -->
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="container text-center tm-welcome-container">
+        <div class="tm-welcome">
+          <i class="fas tm-fa-big fa-music tm-fa-mb-big"></i>
+          <h1 class="text-uppercase mb-3 tm-site-name">30秒音乐网</h1>
+          <p class="tm-site-description">自动提取音乐高潮部分</p>
+          <p class="tm-site-description" style="padding-top: 50px;"><img src='{% static "img/pythondict.png" %}'></img></p>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="container">
+      <div class="tm-search-form-container">
+        <form action="{% url 'index' %}" method="post" class="form-inline tm-search-form" enctype="multipart/form-data">
+          <div class="text-uppercase tm-new-release">支持mp3/wav格式</div>
+          {% csrf_token %}
+          <div id="hidden"></div>
+          <div class="form-group tm-search-box" id="t_form">
+            {{ form.non_field_errors }}
+            {{ form.docfile.errors }}
+            {{ form.docfile }}
+            <input type="submit" value="上传" id="file-upload" class="form-control tm-search-submit" />
+          </div>
         </form>
-    </body>
+
+        <!-- <form action="index.html" method="GET" class="form-inline tm-search-form">
+          <div class="text-uppercase tm-new-release">New Release</div>
+          <div class="form-group tm-search-box">
+            <input type="text" name="keyword" class="form-control tm-search-input" placeholder="Type your keyword ...">
+            <input type="submit" value="Search" class="form-control tm-search-submit">
+          </div>
+          <div class="form-group tm-advanced-box">
+            <a href="#" class="tm-text-white">Go Advanced ...</a>
+          </div>
+        </form> -->
+      </div>
+      {%  if wrong %}
+          <div class="alert alert-danger" style="text-align: center;" role="alert">{{ wrong }}</div>
+      {% endif %} 
+
+      <!-- <div class="row tm-albums-container grid">
+        <div class="col-sm-6 col-12 col-md-6 col-lg-3 col-xl-3 tm-album-col">
+          <figure class="effect-sadie">
+            <img src="img/insertion-260x390-01.jpg" alt="Image" class="img-fluid">
+            <figcaption>
+              <h2>First Album</h2>
+              <p>Rollover text and description text goes here over mouse over...</p>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-sm-6 col-12 col-md-6 col-lg-3 col-xl-3 tm-album-col">
+          <figure class="effect-sadie">
+            <img src="img/insertion-260x390-02.jpg" alt="Image" class="img-fluid">
+            <figcaption>
+              <h2>Album Two</h2>
+              <p>Maecenas iaculis et turpis et iaculis. Aenean at volutpat diam.</p>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-sm-6 col-12 col-md-6 col-lg-3 col-xl-3 tm-album-col">
+          <figure class="effect-sadie">
+            <img src="img/insertion-260x390-03.jpg" alt="Image" class="img-fluid">
+            <figcaption>
+              <h2>Third Album</h2>
+              <p>Vivamus eget elit purus. Nullam consectetur porttitor elementum.</p>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-sm-6 col-12 col-md-6 col-lg-3 col-xl-3 tm-album-col">
+          <figure class="effect-sadie">
+            <img src="img/insertion-260x390-04.jpg" alt="Image" class="img-fluid">
+            <figcaption>
+              <h2>Album Four</h2>
+              <p>Praesent nec feugiat dolor, elementum mollis purus. Etiam faucibus.</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div> -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="tm-tag-line">
+          <h2 class="tm-tag-line-title">Music is your powerful energy.</h2>
+          </div>
+        </div>
+      </div>
+      <!-- 
+      <div class="row mb-5">
+        <div class="col-xl-12">
+          <div class="media-boxes">
+            <div class="media">
+              <img src="img/insertion-140x140-01.jpg" alt="Image" class="mr-3">
+              <div class="media-body tm-bg-gray">
+                <div class="tm-description-box">
+                  <h5 class="tm-text-blue">Vivamus eget urna vitae ante</h5>
+                  <p class="mb-0">Insertion HTML Template includes 3 different pages. You can use this layout for your website. Please tell your friends about <a href="https://plus.google.com/+tooplate" target="_parent">Tooplate</a>. Thank you.</p>
+                </div>
+                <div class="tm-buy-box">
+                  <a href="#" class="tm-bg-blue tm-text-white tm-buy">buy</a>
+                  <span class="tm-text-blue tm-price-tag">$5.50</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="media">
+              <img src="img/insertion-140x140-02.jpg" alt="Image" class="mr-3">
+              <div class="media-body tm-bg-pink-light">
+                <div class="tm-description-box">
+                  <h5 class="tm-text-pink">Proin fermentum sapien sed nisl</h5>
+                  <p class="mb-0">Donec est felis, posuere viverra dapibus ac, pretium vel libero. Aliquam consectetur, arcu eget euismod congue, tortor metus vehicula.</p>
+                </div>
+                <div class="tm-buy-box">
+                  <a href="#" class="tm-bg-pink tm-text-white tm-buy">buy</a>
+                  <span class="tm-text-pink tm-price-tag">$7.25</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="media">
+              <img src="img/insertion-140x140-03.jpg" alt="Image" class="mr-3">
+              <div class="media-body tm-bg-gray">
+                <div class="tm-description-box">
+                  <h5 class="tm-text-blue">Quisque dignissim porta nunc</h5>
+                  <p class="mb-0">In neque felis, fringilla vel orci ut, sodales consectetur purus. Vivamus eget urna vitae ante pellentesque iaculis. Praesent sit amet.</p>
+                </div>
+                <div class="tm-buy-box">
+                  <a href="#" class="tm-bg-blue tm-text-white tm-buy">buy</a>
+                  <span class="tm-text-blue tm-price-tag">$6.80</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="media">
+              <img src="img/insertion-140x140-04.jpg" alt="Image" class="mr-3">
+              <div class="media-body tm-bg-pink-light">
+                <div class="tm-description-box">
+                  <h5 class="tm-text-pink">Vestibulum mattis quam sodales</h5>
+                  <p class="mb-0">Curabitur id tempor orci. Fusce efficitur in enim sit amet sodales. Proin id gravida leo. Phasellus non quam et justo faucibus rhoncus.</p>
+                </div>
+                <div class="tm-buy-box">
+                  <a href="#" class="tm-bg-pink tm-text-white tm-buy">buy</a>
+                  <span class="tm-text-pink tm-price-tag">$3.75</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="media">
+              <img src="img/insertion-140x140-05.jpg" alt="Image" class="mr-3">
+              <div class="media-body tm-bg-gray">
+                <div class="tm-description-box">
+                  <h5 class="tm-text-blue">Vestibulum mattis quam sodales</h5>
+                  <p class="mb-0">Maecenas sit amet nibh faucibus, tincidunt nisl sit amet, elementum eros. Fusce congue ligula gravida lorem lacinia.</p>
+                </div>
+                <div class="tm-buy-box">
+                  <a href="#" class="tm-bg-blue tm-text-white tm-buy">buy</a>
+                  <span class="tm-text-blue tm-price-tag">$5.25</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="row tm-mb-big tm-subscribe-row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 tm-bg-gray tm-subscribe-form">
+          <h3 class="tm-text-pink tm-mb-30">Subscribe our updates!</h3>
+          <p class="tm-mb-30">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi semper, ligula et pretium porttitor, leo orci accumsan ligula.</p>
+          <form action="index.html" method="POST">
+            <div class="form-group mb-0">
+              <input type="text" class="form-control tm-subscribe-input" placeholder="Your Email">
+              <input type="submit" value="Submit" class="tm-bg-pink tm-text-white d-block ml-auto tm-subscribe-btn">
+            </div>
+          </form>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 img-fluid pl-0 tm-subscribe-img"></div>
+      </div> -->
+
+      <!-- <div class="row tm-mb-medium">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-4">
+          <h4 class="mb-4 tm-font-300">Latest Albums</h4>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Sed fringilla consectetur</a>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Mauris porta nisl quis</a>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Quisque maximus quam nec</a>
+          <a href="#" class="tm-text-blue-dark d-block">Class aptent taciti sociosqu ad</a>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mb-4">
+          <h4 class="mb-4 tm-font-300">Our Pages</h4>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Nam dapibus imperdiet</a>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Primis in faucibus orci</a>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Sed interdum blandit dictum</a>
+          <a href="#" class="tm-text-blue-dark d-block">Donec non blandit nisl</a>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+          <h4 class="mb-4 tm-font-300">Quick Links</h4>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Nullam scelerisque mauris</a>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Vivamus tristique enim non orci</a>
+          <a href="#" class="tm-text-blue-dark d-block mb-2">Luctus et ultrices posuere</a>
+          <a href="#" class="tm-text-blue-dark d-block">Cubilia Curae</a>
+        </div>
+      </div> -->
+      <footer class="row">
+        <div class="col-xl-12">
+          <p class="text-center p-4">Copyright &copy; <span class="tm-current-year">2018</span> <a href="https://pythondict.com">Python 实用宝典</a>
+          
+          - Design:  <a rel="nofollow" href="https://www.tooplate.com" class="tm-text-gray">Tooplate</a></p>
+        </div>
+      </footer>
+    </div> <!-- .container -->
+
+  </div> <!-- .main -->
+
+  <!-- load JS -->
+  <script>
+
+    /* DOM is ready
+    ------------------------------------------------*/
+    $(function () {
+
+      if (renderPage) {
+        $('body').addClass('loaded');
+      }
+
+      $('.tm-current-year').text(new Date().getFullYear());  // Update year in copyright
+    });
+
+  </script>
+</body>
 </html>
