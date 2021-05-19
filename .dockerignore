@@ -5,4 +5,8 @@ README.md
 *.pyd
 __pycache__
 .pytest_cache
+.flake8
+yinyue30_second.zip
+.vscode
+.idea
 docker-compose.yml
